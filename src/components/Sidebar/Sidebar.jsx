@@ -165,7 +165,7 @@ const Sidebar = ({
   ...(theme.headerBg.includes("gradient")
     ? { background: theme.headerBg }
     : { backgroundColor: theme.headerBg }),
-      color: themeUtils.getTextColor(false),
+
 }}
     onMouseEnter={(e) => {
       e.currentTarget.style.backgroundColor = theme.headerBg
