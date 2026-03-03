@@ -40,14 +40,16 @@ const Header = ({ sidebarOpen, setSidebarOpen, onLogout }) => {
 
   return (
     <header
-      className="shadow-md z-30 transition-colors duration-300"
+      className="shadow-md z-30 transition-colors duration-300 border-b"
       style={{
         backgroundColor: themeUtils.getBgColor("card"),
         borderColor: themeUtils.getBorderColor(),
       }}
     >
-      <div className="flex items-center justify-between h-12.5 px-4 lg:px-8">
-        <div className="flex items-center gap-4">
+      <div className="relative flex items-center justify-between h-14 sm:h-16 px-3 sm:px-6 lg:px-8">
+
+        {/* LEFT SECTION (Menu + Logo on Mobile/Tablet) */}
+        <div className="flex items-center gap-3">
           {!sidebarOpen && (
             <button
               onClick={() => setSidebarOpen(true)}
@@ -69,24 +71,35 @@ const Header = ({ sidebarOpen, setSidebarOpen, onLogout }) => {
                   : "transparent";
               }}
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
           )}
+
+          {/* Logo (Left on mobile/tablet) */}
+          <div className="sm:hidden">
+            <img
+              src="/src/assets/Images/logo_vlc.png"
+              alt="Logo"
+              className="max-h-8 object-contain"
+            />
+          </div>
         </div>
 
-        {/* Logo in the center */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
-          <img 
-            src="/src/assets/Images/logo_vlc.png" 
-            alt="Logo" 
-            className="max-h-10"
+        {/* Center Logo (Desktop Only) */}
+        <div className="hidden sm:block absolute left-1/2 transform -translate-x-1/2">
+          <img
+            src="/src/assets/Images/logo_vlc.png"
+            alt="Logo"
+            className="max-h-10 md:max-h-12 object-contain"
           />
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* RIGHT SECTION */}
+        <div className="flex items-center gap-2 sm:gap-4">
           <ThemeToggleButton />
           <ProfileDropdown user={profile} onLogout={onLogout} />
         </div>
+
       </div>
     </header>
   );

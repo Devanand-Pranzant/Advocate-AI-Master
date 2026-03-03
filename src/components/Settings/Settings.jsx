@@ -4,7 +4,7 @@ import { useTheme } from "./themeUtils";
 const Settings = () => {
   const { theme, updateTheme, themeUtils, ThemeToggleButton } = useTheme();
   const [isThemeOpen, setIsThemeOpen] = useState(true);
-  const [isColorOpen, setIsColorOpen] = useState(true); // Changed to true so it starts open
+  const [isColorOpen, setIsColorOpen] = useState(true); 
   // Original color palettes
   const originalColorPalettes = [
      {
@@ -303,18 +303,29 @@ const Settings = () => {
     ...existingColorPalettes,
     ...newColorPalettes,
   ];
-  const defaultColor = colorPalettes[0]; // Original default (Blue)
+  const defaultColor = colorPalettes[0]; 
   const handleColorChange = (color) => {
     updateTheme({
       headerBg: color.dark,
       navbarBg: color.light,
     });
   };
-  const groupedColors = colorPalettes.reduce((acc, color) => {
-    if (!acc[color.category]) acc[color.category] = [];
-    acc[color.category].push(color);
-    return acc;
-  }, {});
+const groupedColors = colorPalettes.reduce((acc, color) => {
+  if (!acc[color.category]) acc[color.category] = [];
+  acc[color.category].push(color);
+  return acc;
+}, {});
+React.useEffect(() => {
+  if (!theme.headerBg) {
+    updateTheme({
+      mode: "Dark",
+      headerBg: originalColorPalettes[0].dark,
+      navbarBg: originalColorPalettes[0].light,
+      mood: "Night",
+      activeColorCategory: "primary",
+    });
+  }
+}, []);
   return (
     <div
       className="min-h-screen py-4 px-2 transition-all duration-500"
@@ -337,12 +348,12 @@ const Settings = () => {
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center"
                  style={{
-  ...(theme.headerBg.includes("gradient")
-    ? { background: theme.headerBg }
-    : { backgroundColor: theme.headerBg }),
+  ...(theme.headerBg.includes("gradient")
+    ? { background: theme.headerBg }
+    : { backgroundColor: theme.headerBg }),
 }}
                 >
-                  <Droplet className="text-white" size={20} />
+                  <Droplet className="text-black" size={20} />
                 </div>
                 <h2
                   className="text-lg font-bold"
@@ -380,9 +391,13 @@ const Settings = () => {
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center"
-                  style={{ backgroundColor: theme.headerBg }}
+                  style={{
+  ...(theme.headerBg.includes("gradient")
+    ? { background: theme.headerBg }
+    : { backgroundColor: theme.headerBg }),
+}}
                 >
-                  <Palette className="text-white" size={20} />
+                  <Palette className="text-black" size={20} />
                 </div>
                 <h2
                   className="text-lg font-bold"
@@ -409,7 +424,7 @@ const Settings = () => {
                   {Object.keys(groupedColors).map((category) => (
                     <button
                       key={category}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition-all ${
+                      className={`px-4 py-2 rounded-lg text-sm font-medium  capitalize transition-all ${
                         theme.activeColorCategory === category
                           ? "shadow-md scale-105"
                           : ""
@@ -423,7 +438,7 @@ const Settings = () => {
 
   color:
     theme.activeColorCategory === category
-      ? "#fff"
+      ? "black"
       : themeUtils.getTextColor(false),
 }}
                       onClick={(e) => {
@@ -492,31 +507,43 @@ const Settings = () => {
           {/* Reset to Default */}
           <div className="mt-8 text-center">
             <button
-              className="px-6 py-2 rounded-lg font-semibold text-white transition-all hover:scale-105"
-              style={{
-                backgroundColor: theme.headerBg,
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor =
-                  theme.mode === "Dark"
-                    ? `${theme.headerBg}dd`
-                    : `${theme.headerBg}cc`;
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = theme.headerBg;
-              }}
-              onClick={() => {
-                updateTheme({
-                  mode: "Dark",
-                  headerBg: defaultColor.dark,
-                  navbarBg: defaultColor.light,
-                  mood: "Night",
-                  activeColorCategory: "primary",
-                });
-              }}
-            >
-              Reset to Default
-            </button>
+  className="px-6 py-2 rounded-lg font-semibold text-white transition-all hover:scale-105"
+  style={
+    theme.headerBg?.includes("gradient")
+      ? { background: theme.headerBg }
+      : { backgroundColor: theme.headerBg }
+  }
+  onMouseEnter={(e) => {
+    if (theme.headerBg?.includes("gradient")) {
+      e.currentTarget.style.background = theme.headerBg;
+      e.currentTarget.style.filter = "brightness(0.9)";
+    } else {
+      e.currentTarget.style.backgroundColor =
+        theme.mode === "Dark"
+          ? `${theme.headerBg}dd`
+          : `${theme.headerBg}cc`;
+    }
+  }}
+  onMouseLeave={(e) => {
+    if (theme.headerBg?.includes("gradient")) {
+      e.currentTarget.style.background = theme.headerBg;
+      e.currentTarget.style.filter = "brightness(1)";
+    } else {
+      e.currentTarget.style.backgroundColor = theme.headerBg;
+    }
+  }}
+  onClick={() => {
+    updateTheme({
+      mode: "Dark",
+      headerBg: defaultColor.dark,
+      navbarBg: defaultColor.light,
+      mood: "Night",
+      activeColorCategory: "primary",
+    });
+  }}
+>
+  Reset to Default
+</button>
           </div>
         </div>
       </div>
