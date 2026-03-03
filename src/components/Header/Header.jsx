@@ -40,13 +40,13 @@ const Header = ({ sidebarOpen, setSidebarOpen, onLogout }) => {
 
   return (
     <header
-      className="shadow-md  z-30 transition-colors duration-300"
+      className="shadow-md z-30 transition-colors duration-300"
       style={{
         backgroundColor: themeUtils.getBgColor("card"),
         borderColor: themeUtils.getBorderColor(),
       }}
     >
-      <div className="flex items-center justify-between h-12.5 px-4 lg:px-8 ">
+      <div className="flex items-center justify-between h-12.5 px-4 lg:px-8">
         <div className="flex items-center gap-4">
           {!sidebarOpen && (
             <button
@@ -74,10 +74,16 @@ const Header = ({ sidebarOpen, setSidebarOpen, onLogout }) => {
           )}
         </div>
 
-     
+        {/* Logo in the center */}
+        <div className="absolute left-1/2 transform -translate-x-1/2">
+          <img 
+            src="/src/assets/Images/logo_vlc.png" 
+            alt="Logo" 
+            className="max-h-10"
+          />
+        </div>
 
         <div className="flex items-center gap-4">
-
           <ThemeToggleButton />
           <ProfileDropdown user={profile} onLogout={onLogout} />
         </div>
