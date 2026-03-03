@@ -1,18 +1,15 @@
-
 import { useTheme } from "../Settings/themeUtils";
-
-import RajyugLogo from "../../assets/img/BTU-Logo-removebg-preview.png"; 
+import RajyugLogo from "../../assets/images/law-logo.png"; 
 
 const Logo = ({ isCollapsed }) => {
   const { theme, themeUtils } = useTheme();
 
   return (
-    <div className="flex items-left gap-3 ">
-    
+    <div className="flex items-center justify-center w-full">
       <img
         src={RajyugLogo}
         alt="Rajyug Logo"
-        className={`h-10 w-auto transition-all duration-300 object-contain mr-40 ${
+        className={`h-10 w-auto transition-all duration-300 object-contain ${
           isCollapsed ? "opacity-0 w-0 overflow-hidden" : "opacity-100"
         }`}
       />
