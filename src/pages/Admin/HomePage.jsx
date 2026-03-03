@@ -14,11 +14,72 @@ const Homepage = () => {
   const [currentHighlightIndex, setCurrentHighlightIndex] = useState(-1);
   const [highlights, setHighlights] = useState([]);
   const [faqOpenStates, setFaqOpenStates] = useState([true, false, false, false, false, false]);
+  const [currentSlide, setCurrentSlide] = useState(0);
   
   const chatBodyRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const mediaStreamRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const carouselIntervalRef = useRef(null);
+
+  // Carousel data
+  const carouselSlides = [
+    {
+      img: "/src/assets/Images/index/image/carousel-2.jpg",
+      title: "Revolutionizing Law with AI",
+      description: "Transforming legal practice through advanced AI technologies that enhance efficiency, accuracy, and accessibility.",
+      buttonText: "Register",
+      buttonLink: "Login_registration.php"
+    },
+    {
+      img: "/src/assets/Images/index/image/carousel-3.jpg",
+      title: "Modernizing Law with AI",
+      description: "Digital Document Management, ChatBot Assistance, and Advanced Document Analysis.",
+      buttonText: "Register",
+      buttonLink: "Login_registration.php"
+    },
+    {
+      img: "/src/assets/Images/index/image/carousel-1.jpg",
+      title: "AI-Driven Legal Solutions",
+      description: "Our AI-driven platform offers a suite of tools designed to enhance efficiency and accuracy in legal work",
+      buttonText: "Explore",
+      buttonLink: "faq.html"
+    }
+  ];
+
+  // Carousel auto-play
+  useEffect(() => {
+    startCarousel();
+    return () => {
+      if (carouselIntervalRef.current) {
+        clearInterval(carouselIntervalRef.current);
+      }
+    };
+  }, []);
+
+  const startCarousel = () => {
+    if (carouselIntervalRef.current) {
+      clearInterval(carouselIntervalRef.current);
+    }
+    carouselIntervalRef.current = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % carouselSlides.length);
+    }, 5000);
+  };
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+    startCarousel();
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + carouselSlides.length) % carouselSlides.length);
+    startCarousel();
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % carouselSlides.length);
+    startCarousel();
+  };
 
   // Back to top button handler
   useEffect(() => {
@@ -449,12 +510,12 @@ const Homepage = () => {
   ];
 
   const featuresData = [
-    { img: "C:\\Users\\dfark\\OneDrive\\Desktop\\RajYug IT\\Advocate\\front\\src\\assets\\Images\\index\\image\\client-management.jpeg", title: "Client Management", desc: "Easily manage and access your clients' information. The Clients section allows you to track and update client details efficiently. Manage your entire client database effectively." },
-    { img: "C:\\Users\\dfark\\OneDrive\\Desktop\\RajYug IT\\Advocate\\front\\src\\assets\\Images\\index\\image\\Indian-law-chatbot.jpg", title: "Indian Laws Chatbot", desc: "Get instant answers to legal queries through our AI-powered chatbot that is well-versed in Indian laws. Simplify your legal research by asking questions directly to the chatbot." },
-    { img: "C:\\Users\\dfark\\OneDrive\\Desktop\\RajYug IT\\Advocate\\front\\src\\assets\\Images\index\image\langauge-translate.jpg", title: "Document Translator", desc: "Translate legal documents into multiple languages with our built-in translation tool. Break language barriers by converting documents into your preferred language." },
-    { img: "C:\\Users\dfark\OneDrive\Desktop\RajYug IT\Advocate\front\src\assets\Images\index\image\law-document.jpg", title: "E-Document Library", desc: "E-Document Library provides secure storage and organization of legal documents electronically, including contracts, agreements, and case files, with categorized access for easy retrieval." },
-    { img: "C:\\Users\dfark\OneDrive\Desktop\RajYug IT\Advocate\front\src\assets\Images\index\image\Calendar.jpg", title: "Meeting Calendar Schedule", desc: "Meeting Calendar Schedule allows you to schedule and manage meetings with clients and other parties, setting reminders and notifications for upcoming meetings and deadlines." },
-    { img: "C:\\Users\dfark\OneDrive\Desktop\RajYug IT\Advocate\front\src\assets\Images/index/image/case paper.jpg", title: "Case Paper AI Analysis", desc: "Case Paper AI Analysis uses AI to examine case papers and documents, offering insights and recommendations tailored to the specific needs of each client." }
+    { img: "/src/assets/Images/index/image/client-management.jpeg", title: "Client Management", desc: "Easily manage and access your clients' information. The Clients section allows you to track and update client details efficiently. Manage your entire client database effectively." },
+    { img: "/src/assets/Images/index/image/Indian-law-chatbot.jpg", title: "Indian Laws Chatbot", desc: "Get instant answers to legal queries through our AI-powered chatbot that is well-versed in Indian laws. Simplify your legal research by asking questions directly to the chatbot." },
+    { img: "/src/assets/Images/index/image/langauge-translate.jpg", title: "Document Translator", desc: "Translate legal documents into multiple languages with our built-in translation tool. Break language barriers by converting documents into your preferred language." },
+    { img: "/src/assets/Images/index/image/law-document.jpg", title: "E-Document Library", desc: "E-Document Library provides secure storage and organization of legal documents electronically, including contracts, agreements, and case files, with categorized access for easy retrieval." },
+    { img: "/src/assets/Images/index/image/Calendar.jpg", title: "Meeting Calendar Schedule", desc: "Meeting Calendar Schedule allows you to schedule and manage meetings with clients and other parties, setting reminders and notifications for upcoming meetings and deadlines." },
+    { img: "/src/assets/Images/index/image/case paper.jpg", title: "Case Paper AI Analysis", desc: "Case Paper AI Analysis uses AI to examine case papers and documents, offering insights and recommendations tailored to the specific needs of each client." }
   ];
 
   const chooseUsData = [
@@ -468,9 +529,9 @@ const Homepage = () => {
       {/* Top Bar */}
       <div className="fixed top-0 left-0 w-full z-50 shadow-[0_5px_10px_rgba(128,128,128,0.5)]">
         <div className="h-[50px] bg-black">
-          <div className="container mx-auto px-4 gap-5 h-full">
-            <div className="flex justify-between items-center h-full pr-0">
-              <img src=".\src\assets\Images\logo_vlc.png" alt="Logo" className="max-h-10" />
+          <div className="container mx-auto px-4 h-full">
+            <div className="flex justify-between items-center h-full">
+              <img src="/src/assets/Images/logo_vlc.png" alt="Logo" className="max-h-10" />
               <a 
                 href="Login_registration.php" 
                 className="px-2 py-1 text-xs font-medium uppercase text-[#cfb587] border border-transparent rounded transition-colors duration-300 hover:text-white"
@@ -488,25 +549,74 @@ const Homepage = () => {
       {/* Carousel */}
       <div className="relative w-full h-screen mt-[50px] overflow-hidden">
         <div className="relative w-full h-full">
-          <img src=".\src\assets\Images\Free.jpg" alt="Carousel" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/30"></div>
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-            <h1 className="text-white text-4xl md:text-6xl font-bold mb-5 font-['EB_Garamond',serif] animate-[fadeInLeft_1.5s_ease]">
-              Revolutionizing Law with AI
-            </h1>
-            <p className="text-white text-xl md:text-2xl mb-6 animate-[fadeInRight_1.5s_ease]">
-              Transforming legal practice through advanced AI technologies that enhance efficiency, accuracy, and accessibility.
-            </p>
-            <a 
-              href="Login_registration.php" 
-              className="px-4 py-2 text-lg font-medium uppercase text-[#cfb587] border border-transparent rounded transition-colors duration-300 hover:text-black animate-[fadeInUp_1.5s_ease]"
-              style={{ 
-                background: 'linear-gradient(#000, #000) padding-box, linear-gradient(270deg, #806633 4%, #ffd47f 50%, #806633 96%) border-box'
-              }}
-            >
-              Register
-            </a>
+          {/* Carousel Indicators */}
+          <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+            {carouselSlides.map((_, index) => (
+              <button
+                key={index}
+                className={`w-3 h-3 rounded-full cursor-pointer transition-colors ${
+                  index === currentSlide ? 'bg-[#aa9166]' : 'bg-white/50'
+                }`}
+                onClick={() => goToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
           </div>
+
+          {/* Slides */}
+          {carouselSlides.map((slide, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+              }`}
+            >
+              <img 
+                src={slide.img} 
+                alt={`Slide ${index + 1}`} 
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.src = '/src/assets/Images/index/image/carousel-1.jpg';
+                }}
+              />
+              <div className="absolute inset-0 bg-black/30"></div>
+              
+              {/* Caption */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                <h1 className="text-white text-4xl md:text-6xl font-bold mb-5 font-['EB_Garamond',serif] animate-[fadeInLeft_1.5s_ease]">
+                  {slide.title}
+                </h1>
+                <p className="text-white text-xl md:text-2xl mb-6 animate-[fadeInRight_1.5s_ease] max-w-3xl">
+                  {slide.description}
+                </p>
+                <a 
+                  href={slide.buttonLink}
+                  className="px-4 py-2 text-lg font-medium uppercase text-[#cfb587] border border-transparent rounded transition-colors duration-300 hover:text-black animate-[fadeInUp_1.5s_ease]"
+                  style={{ 
+                    background: 'linear-gradient(#000, #000) padding-box, linear-gradient(270deg, #806633 4%, #ffd47f 50%, #806633 96%) border-box'
+                  }}
+                >
+                  {slide.buttonText}
+                </a>
+              </div>
+            </div>
+          ))}
+
+          {/* Controls */}
+          <button
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors z-30 focus:outline-none"
+            onClick={prevSlide}
+            aria-label="Previous slide"
+          >
+            <span className="text-2xl">‹</span>
+          </button>
+          <button
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors z-30 focus:outline-none"
+            onClick={nextSlide}
+            aria-label="Next slide"
+          >
+            <span className="text-2xl">›</span>
+          </button>
         </div>
       </div>
 
@@ -525,7 +635,14 @@ const Homepage = () => {
           <div className="flex flex-wrap -mx-4">
             <div className="w-full lg:w-5/12 md:w-6/12 px-4 mb-8 md:mb-0">
               <div className="relative top-2.5 h-full p-2.5 bg-[#121518] border-4 border-[#aa9166]/50">
-                <img src=".\src\assets\Images\index\image\about-us.jpg" alt="About Us" className="w-full h-full object-cover" />
+                <img 
+                  src="/src/assets/Images/index/image/about-us.jpg" 
+                  alt="About Us" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.src = '/src/assets/Images/index/image/about-us.jpg';
+                  }}
+                />
               </div>
             </div>
             <div className="w-full lg:w-7/12 md:w-6/12 px-4">
@@ -559,7 +676,14 @@ const Homepage = () => {
               <div key={index} className="w-full lg:w-4/12 md:w-6/12 px-4 mb-8 flex">
                 <div className="w-full border-4 border-[#aa9166]/50 text-center bg-[#121518] transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
                   <div className="relative">
-                    <img src={`.\src\assets\Images\index\image\client-management.jpeg'`} alt={feature.title} className="w-full h-[225px] object-cover" />
+                    <img 
+                      src={feature.img} 
+                      alt={feature.title} 
+                      className="w-full h-[225px] object-cover"
+                      onError={(e) => {
+                        e.target.src = '/src/assets/Images/index/image/client-management.jpeg';
+                      }}
+                    />
                   </div>
                   <h3 className="m-0 p-4 text-2xl font-semibold bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633] text-black">
                     {feature.title}
@@ -592,7 +716,7 @@ const Homepage = () => {
                 <div key={index} className="flex items-center mb-8">
                   <div className="w-5/12 pr-4">
                     <div className="h-[180px] flex items-center justify-center bg-[#121518] border-4 border-[#aa9166]">
-                      <i className={`${item.icon} text-6xl text-[#aa9166] bg-black p-5 rounded-full`}></i>
+                      <i className={`${item.icon} text-6xl text-[#aa9166] bg-black p-5 rounded-full transition-all duration-500 hover:mr-[-15px]`}></i>
                     </div>
                   </div>
                   <div className="w-7/12">
@@ -606,7 +730,14 @@ const Homepage = () => {
             </div>
             <div className="w-full md:w-5/12 px-4">
               <div className="h-full p-2.5 bg-[#121518]">
-                <img src="index/img/law-feature.jpg" alt="Feature" className="w-full h-full object-cover" />
+                <img 
+                  src="/src/assets/Images/index/image/law-feature.jpg" 
+                  alt="Feature" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.src = '/src/assets/Images/index/image/law-feature.jpg';
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -619,7 +750,14 @@ const Homepage = () => {
           <div className="flex flex-wrap -mx-4">
             <div className="w-full md:w-5/12 px-4 mb-8 md:mb-0">
               <div className="h-full p-2.5 bg-[#121518]">
-                <img src="index/img/faqs.jpg" alt="FAQs" className="w-full h-full object-cover" />
+                <img 
+                  src="/src/assets/Images/index/image/faqs.jpg" 
+                  alt="FAQs" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.src = '/src/assets/Images/index/image/faqs.jpg';
+                  }}
+                />
               </div>
             </div>
             <div className="w-full md:w-7/12 px-4">
@@ -637,13 +775,13 @@ const Homepage = () => {
                   <div key={index} className="border border-[#aa9166]">
                     <div className="bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633]">
                       <button 
-                        className="w-full text-left px-4 py-2 text-black text-lg flex items-center hover:opacity-90 transition-opacity"
+                        className="w-full text-left px-4 py-2 text-black text-lg flex items-center hover:opacity-90 transition-opacity focus:outline-none"
                         onClick={() => toggleFaq(index)}
                       >
                         <span className="inline-flex items-center justify-center w-10 h-10 mr-2.5 text-center bg-[#806633] text-black font-bold">
                           {index + 1}
                         </span>
-                        {faq.q}
+                        <span className="flex-1">{faq.q}</span>
                         <span className="ml-auto">
                           <i className={`fas ${faqOpenStates[index] ? 'fa-chevron-up' : 'fa-chevron-down'} text-black`}></i>
                         </span>
@@ -701,7 +839,7 @@ const Homepage = () => {
                   <div className="space-y-2">
                     <p className="flex items-start"><i className="fa fa-map-marker w-6 mt-1"></i><span>8th Floor, City Avenue, Wakad, Pune, Maharashtra.</span></p>
                     <p className="flex items-start"><i className="fa fa-phone w-6 mt-1"></i><span>+91 20 4600 9797<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+91 91 3008 9797</span></p>
-                    <p className="flex items-start"><i className="fa fa-envelope w-6 mt-1"></i><a href="mailto:info@advocateaimaster.com" className="text-white no-underline hover:text-[#aa9166]">info@AdvocateAiMaster.com</a></p>
+                    <p className="flex items-start"><i className="fa fa-envelope w-6 mt-1"></i><a href="mailto:info@advocateaimaster.com" className="text-white no-underline hover:text-[#aa9166]" target="_blank">info@AdvocateAiMaster.com</a></p>
                     <div className="flex space-x-4 mt-5">
                       <a href="https://www.facebook.com/people/Advocate-ai-master/61565198202946/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500"><i className="fab fa-facebook-f text-xl"></i></a>
                       <a href="https://www.instagram.com/advocateaimaster/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500"><i className="fab fa-instagram text-xl"></i></a>
@@ -748,7 +886,7 @@ const Homepage = () => {
             </select>
             
             <button 
-              className={`w-6 h-6 rounded-full border border-black flex items-center justify-center cursor-pointer mr-1 transition-colors ${allowOnlineSearch ? 'bg-[#ffd47f]/20' : ''}`}
+              className={`w-6 h-6 rounded-full border border-black flex items-center justify-center cursor-pointer mr-1 transition-colors focus:outline-none ${allowOnlineSearch ? 'bg-[#ffd47f]/20' : ''}`}
               onClick={() => setAllowOnlineSearch(!allowOnlineSearch)}
               title="Toggle Internet Search"
             >
@@ -757,7 +895,10 @@ const Homepage = () => {
             
             <span className="font-bold text-black">AI Chat Assistant</span>
             
-            <button className="bg-transparent border-none text-black text-base cursor-pointer p-0 focus:outline-none" onClick={() => setMenuDropdownOpen(!menuDropdownOpen)}>
+            <button 
+              className="bg-transparent border-none text-black text-base cursor-pointer p-0 focus:outline-none" 
+              onClick={() => setMenuDropdownOpen(!menuDropdownOpen)}
+            >
               <i className="fas fa-ellipsis-v"></i>
             </button>
             
@@ -892,7 +1033,7 @@ const Homepage = () => {
         </div>
       )}
 
-      {/* Add keyframe animations */}
+      {/* Animations */}
       <style jsx>{`
         @keyframes fadeInLeft {
           from {
@@ -935,6 +1076,14 @@ const Homepage = () => {
           0% { opacity: 1; }
           50% { opacity: 0.6; }
           100% { opacity: 1; }
+        }
+        
+        .back-to-top.hidden {
+          display: none;
+        }
+        
+        .back-to-top:not(.hidden) {
+          display: block;
         }
       `}</style>
     </div>
