@@ -742,7 +742,7 @@ const softBg05 = isGradient
                       variant="primary"
                       onClick={handleChangePassword}
                       className="hover:bg-blue-700 hover:shadow-md hover:scale-105 transition-all duration-200"
-                      style={{ backgroundColor: themeUtils.getBgColor("input") }}
+                     
                     >
                       Update
                     </Button>
