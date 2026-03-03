@@ -160,12 +160,13 @@ const Sidebar = ({
   <button
     onClick={() => setIsSidebarCollapsed((p) => !p)}
     className="hidden lg:block ml-auto p-1.5 rounded-md transition-all duration-200 hover:scale-105"
+  
     style={{
-      backgroundColor: theme.headerBg
-        ? `${theme.headerBg}10`
-        : "transparent",
+  ...(theme.headerBg.includes("gradient")
+    ? { background: theme.headerBg }
+    : { backgroundColor: theme.headerBg }),
       color: themeUtils.getTextColor(false),
-    }}
+}}
     onMouseEnter={(e) => {
       e.currentTarget.style.backgroundColor = theme.headerBg
         ? `${theme.headerBg}20`
@@ -247,7 +248,7 @@ const Sidebar = ({
                     to={item.path}
                     className="flex items-center gap-2 px-3 py-1 rounded-lg transition-all duration-200"
                     style={{
-                      backgroundColor: active
+                      background: active
                         ? theme.headerBg
                         : "transparent",
                       color: active

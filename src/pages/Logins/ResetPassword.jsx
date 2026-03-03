@@ -134,7 +134,7 @@ const ResetPasswordPage = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/src/assets/bg1.png')",
+          backgroundImage: "url('/src/assets/img/back-login.jpg')",
         }}
       ></div>
 

@@ -18,7 +18,23 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [isEditing, setIsEditing] = useState(false);
   const { theme, themeUtils } = useTheme();
+const isGradient = theme.headerBg?.includes("gradient");
 
+const primaryColor = isGradient
+  ? "#806633"
+  : theme.headerBg || "#6366f1";
+
+const softBg10 = isGradient
+  ? "rgba(128, 102, 51, 0.10)"
+  : theme.headerBg
+  ? `${theme.headerBg}10`
+  : "#eef2ff10";
+
+const softBg05 = isGradient
+  ? "rgba(128, 102, 51, 0.05)"
+  : theme.headerBg
+  ? `${theme.headerBg}05`
+  : "#f0fdf405";
   const [profile, setProfile] = useState({
     name: "John Doe",
     email: "john.doe@example.com",
@@ -340,7 +356,7 @@ const Profile = () => {
               <button
                 className={`flex-1 py-3 px-4 text-center rounded-lg font-semibold transition-all duration-200`}
                 style={{
-                  backgroundColor:
+                  background:
                     activeTab === "profile" ? theme.headerBg : "transparent",
                   color:
                     activeTab === "profile"
@@ -361,7 +377,7 @@ const Profile = () => {
               <button
                 className={`flex-1 py-3 px-4 text-center rounded-lg font-semibold transition-all duration-200`}
                 style={{
-                  backgroundColor:
+                  background:
                     activeTab === "password" ? theme.headerBg : "transparent",
                   color:
                     activeTab === "password"
@@ -425,7 +441,11 @@ const Profile = () => {
                           type="button"
                           onClick={handleCameraClick}
                           className="absolute bottom-3 right-1 p-1 rounded-full shadow-lg hover:scale-110 transition-all duration-200"
-                          style={{ backgroundColor: theme.headerBg }}
+                         style={{
+  ...(theme.headerBg.includes("gradient")
+    ? { background: theme.headerBg }
+    : { backgroundColor: theme.headerBg }),
+}}
                         >
                           <Camera size={20} style={{ color: "#FFFFFF" }} />
                         </button>
@@ -624,11 +644,12 @@ const Profile = () => {
                 <div className="text-center mb-8">
                   <div
                     className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg"
+                   
                     style={{
-                      backgroundColor: theme.headerBg
-                        ? `${theme.headerBg}20`
-                        : "#e0e7ff30",
-                    }}
+  ...(theme.headerBg.includes("gradient")
+    ? { background: theme.headerBg }
+    : { backgroundColor: theme.headerBg }),
+}}
                   >
                     <Lock
                       size={32}
@@ -721,6 +742,7 @@ const Profile = () => {
                       variant="primary"
                       onClick={handleChangePassword}
                       className="hover:bg-blue-700 hover:shadow-md hover:scale-105 transition-all duration-200"
+                      style={{ backgroundColor: themeUtils.getBgColor("input") }}
                     >
                       Update
                     </Button>

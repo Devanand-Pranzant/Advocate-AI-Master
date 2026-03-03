@@ -11,6 +11,23 @@ const ProfileDropdown = ({ user, onLogout }) => {
   const location = useLocation();
   const { theme, themeUtils } = useTheme();
 
+  const isGradient = theme.headerBg?.includes("gradient");
+  const primaryColor = isGradient
+    ? "#806633"
+    : theme.headerBg || "#6366f1";
+
+  const softBg15 = isGradient
+    ? "rgba(128, 102, 51, 0.15)"
+    : theme.headerBg
+    ? `${theme.headerBg}15`
+    : "#e0e7ff";
+
+  const softBg20 = isGradient
+    ? "rgba(128, 102, 51, 0.20)"
+    : theme.headerBg
+    ? `${theme.headerBg}20`
+    : "#e9d5ff";
+
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   useEffect(() => {
@@ -20,14 +37,15 @@ const ProfileDropdown = ({ user, onLogout }) => {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = () => {
     onLogout();
     navigate("/login");
   };
-  // Check if current path matches profile or settings
+
   const isProfileActive = location.pathname === "/profile";
   const isSettingsActive = location.pathname === "/settings";
 
@@ -42,29 +60,31 @@ const ProfileDropdown = ({ user, onLogout }) => {
           className="w-8 h-8 rounded-full shadow-md flex items-center justify-center"
           style={{
             backgroundColor: themeUtils.getBgColor("input"),
-            boxShadow: `0 0 0 2px ${theme.headerBg || "#6366f1"}`,
+            boxShadow: isGradient
+              ? "0 0 0 2px #806633"
+              : `0 0 0 2px ${primaryColor}`,
           }}
         >
           <User
             className="w-6 h-6"
             style={{
-              color: theme.headerBg || "#6366f1",
-              backgroundColor: theme.headerBg
-                ? `${theme.headerBg}15`
-                : "transparent",
+              color: primaryColor,
+              backgroundColor: softBg15,
               padding: "2px",
               borderRadius: "50%",
             }}
           />
         </div>
+
         <ChevronDown
           className="w-4 h-4 ml-1"
           style={{ color: themeUtils.getTextColor(false) }}
         />
       </button>
+
       {isOpen && (
         <div
-          className={`absolute right-0 mt-2 w-56 rounded-lg shadow-xl py-2 z-50 border`}
+          className="absolute right-0 mt-2 w-56 rounded-lg shadow-xl py-2 z-50 border"
           style={{
             backgroundColor: themeUtils.getBgColor("card"),
             borderColor: themeUtils.getBorderColor(),
@@ -80,42 +100,39 @@ const ProfileDropdown = ({ user, onLogout }) => {
             >
               {user?.name || "Admin User"}
             </p>
+
             <p
               className="text-xs"
               style={{ color: themeUtils.getTextColor(false) }}
             >
               {user?.email || "admin@example.com"}
             </p>
+
             <div className="mt-1">
               <span
                 className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
                 style={{
-                  backgroundColor: theme.headerBg
-                    ? `${theme.headerBg}20`
-                    : "#e9d5ff",
-                  color: theme.headerBg || "#9333ea",
+                  backgroundColor: softBg20,
+                  color: primaryColor,
                 }}
               >
                 Administrator
               </span>
             </div>
           </div>
+
           <Link
             to="/profile"
             className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
               isProfileActive ? "shadow-sm" : ""
             }`}
             style={{
-              backgroundColor: isProfileActive
-                ? theme.headerBg
-                  ? `${theme.headerBg}15`
-                  : "#e0e7ff"
-                : "transparent",
+              backgroundColor: isProfileActive ? softBg15 : "transparent",
               color: isProfileActive
-                ? theme.headerBg || "#6366f1"
+                ? primaryColor
                 : themeUtils.getTextColor(true),
               borderLeft: isProfileActive
-                ? `3px solid ${theme.headerBg || "#6366f1"}`
+                ? `3px solid ${primaryColor}`
                 : "3px solid transparent",
             }}
           >
@@ -123,28 +140,25 @@ const ProfileDropdown = ({ user, onLogout }) => {
               className="w-4 h-4"
               style={{
                 color: isProfileActive
-                  ? theme.headerBg || "#6366f1"
+                  ? primaryColor
                   : themeUtils.getTextColor(false),
               }}
             />
             Profile
           </Link>
+
           <Link
             to="/settings"
             className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors ${
               isSettingsActive ? "shadow-sm" : ""
             }`}
             style={{
-              backgroundColor: isSettingsActive
-                ? theme.headerBg
-                  ? `${theme.headerBg}15`
-                  : "#e0e7ff"
-                : "transparent",
+              backgroundColor: isSettingsActive ? softBg15 : "transparent",
               color: isSettingsActive
-                ? theme.headerBg || "#6366f1"
+                ? primaryColor
                 : themeUtils.getTextColor(true),
               borderLeft: isSettingsActive
-                ? `3px solid ${theme.headerBg || "#6366f1"}`
+                ? `3px solid ${primaryColor}`
                 : "3px solid transparent",
             }}
           >
@@ -152,16 +166,18 @@ const ProfileDropdown = ({ user, onLogout }) => {
               className="w-4 h-4"
               style={{
                 color: isSettingsActive
-                  ? theme.headerBg || "#6366f1"
+                  ? primaryColor
                   : themeUtils.getTextColor(false),
               }}
             />
             Settings
           </Link>
+
           <hr
             className="my-2"
             style={{ borderColor: themeUtils.getBorderColor() }}
           />
+
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-2 text-sm w-full text-left transition-colors"

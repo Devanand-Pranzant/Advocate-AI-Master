@@ -11,6 +11,10 @@ import {
   Shield,
   Zap,
   ArrowRight,
+  Phone,
+  Hash,
+  Briefcase,
+  Gavel,
 } from "lucide-react";
 
 const SignUpPage = () => {
@@ -19,6 +23,8 @@ const SignUpPage = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    barRegistrationNumber: "",
+    phoneNumber: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
@@ -38,13 +44,26 @@ const SignUpPage = () => {
     setIsSubmitting(true);
     setError("");
 
+    // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords do not match");
       setIsSubmitting(false);
       return;
     }
 
+    // Validate phone number (basic validation)
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(formData.phoneNumber.replace(/\D/g, ''))) {
+      setError("Please enter a valid 10-digit phone number");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
+      // Here you would typically make an API call to register the user
+      // await axios.post(`${import.meta.env.VITE_API_URL}/api/users/register`, formData);
+      
+      // For now, simulate registration and redirect to login
       await new Promise((resolve) => setTimeout(resolve, 1000));
       navigate("/login");
     } catch (error) {
@@ -55,12 +74,12 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen relative overflow-hidden">
+    <div className="flex min-h-screen relative overflow-hidden ">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/src/assets/bg1.png')",
+          backgroundImage: "url('/src/assets/images/back-login.jpg')",
         }}
       ></div>
 
@@ -71,12 +90,19 @@ const SignUpPage = () => {
       <div className="hidden lg:flex lg:w-3/5 relative z-10">
         <div className="relative z-20 flex flex-col justify-center px-12 text-white drop-shadow-lg">
           <div className="mb-10">
-            <h1 className="text-4xl font-extrabold text-white drop-shadow-xl">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-md">
+                <Gavel className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-4xl font-extrabold text-white drop-shadow-xl">
+                Advocate AI Master
+              </h1>
+            </div>
+            <p className="text-xl font-medium text-white drop-shadow-md">
               Start Your Journey With Us
-            </h1>
-            <p className="text-xl font-medium text-white drop-shadow-md mt-4">
-              Create an account to access exclusive features and personalized
-              content.
+            </p>
+            <p className="text-md text-white/80 drop-shadow-md mt-2">
+              Create an account to access exclusive features and personalized content.
             </p>
           </div>
 
@@ -116,15 +142,15 @@ const SignUpPage = () => {
       </div>
 
       {/* Right Side - Sign Up Form */}
-      <div className="w-full lg:w-2/5 flex items-center justify-center p-4 relative z-10 h-screen">
-        <div className="w-full max-w-md bg-white/5 backdrop-blur-md rounded-xl border border-white/10 shadow-2xl p-8">
+      <div className="w-full lg:w-2/5 flex items-center justify-center p-4 relative z-10 min-h-screen overflow-y-auto py-1">
+        <div className="w-full max-w-md bg-white/5 backdrop-blur-md rounded-xl border   border-white/10 shadow-2xl px-8">
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4">
-              <User className="w-8 h-8 text-white" strokeWidth={2.5} />
+              <Briefcase className="w-8 h-8 text-white" strokeWidth={2.5} />
             </div>
-            <h2 className="text-2xl font-bold text-white">Create Account</h2>
+            <h2 className="text-2xl font-bold text-white">Advocate Registration</h2>
             <p className="text-sm text-white/70 mt-2">
-              Sign up to get started with energy management
+              Join Advocate AI Master for intelligent case management
             </p>
           </div>
 
@@ -134,7 +160,24 @@ const SignUpPage = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4">
+
+             {/* Bar Registration Number - New Field */}
+            <div className="relative">
+              <Hash className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
+              <input
+                id="barRegistrationNumber"
+                name="barRegistrationNumber"
+                type="text"
+                value={formData.barRegistrationNumber}
+                onChange={handleChange}
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white font-medium placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                placeholder="Bar Registration Number"
+                required
+              />
+            </div>
+            
+            {/* Full Name */}
             <div className="relative">
               <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
               <input
@@ -149,6 +192,7 @@ const SignUpPage = () => {
               />
             </div>
 
+            {/* Email Address */}
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
               <input
@@ -163,6 +207,24 @@ const SignUpPage = () => {
               />
             </div>
 
+            {/* Phone Number - New Field */}
+            <div className="relative">
+              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
+              <input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white font-medium placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                placeholder="Phone Number (10 digits)"
+                required
+              />
+            </div>
+
+           
+
+            {/* Password */}
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
               <input
@@ -188,6 +250,7 @@ const SignUpPage = () => {
               </button>
             </div>
 
+            {/* Confirm Password */}
             <div className="relative">
               <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/60" />
               <input
@@ -202,6 +265,7 @@ const SignUpPage = () => {
               />
             </div>
 
+            {/* Terms and Conditions */}
             <div className="flex items-center">
               <input
                 type="checkbox"
@@ -219,6 +283,7 @@ const SignUpPage = () => {
               </label>
             </div>
 
+            {/* Submit Button */}
             <button
               type="submit"
               disabled={isSubmitting}
@@ -231,13 +296,14 @@ const SignUpPage = () => {
                 </>
               ) : (
                 <>
-                  Create Account
+                  SignUp
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
             </button>
           </form>
 
+          {/* Login Link */}
           <div className="text-center mt-6">
             <p className="text-sm text-white/70">
               Already have an account?{" "}
@@ -252,13 +318,7 @@ const SignUpPage = () => {
         </div>
       </div>
 
-      {/* Bottom Right Branding */}
-      <div className="absolute bottom-4 right-4 z-10">
-        <div className="text-white/60 text-xs">
-          <p>BTU Meter Management System v1.0</p>
-          <p>RSB Compliant • Secure • Enterprise Ready</p>
-        </div>
-      </div>
+    
     </div>
   );
 };

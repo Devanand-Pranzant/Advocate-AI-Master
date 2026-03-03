@@ -7,7 +7,13 @@ const Settings = () => {
   const [isColorOpen, setIsColorOpen] = useState(true); // Changed to true so it starts open
   // Original color palettes
   const originalColorPalettes = [
-    { dark: "#806633", light: "#000000", name: "Luxury Black Gold", category: "primary" },
+     {
+      dark: "linear-gradient(270deg, rgba(128, 102, 51, 1) 4%, rgba(255, 212, 127, 1) 50%, rgba(128, 102, 51, 1) 96%)",
+      light: "#000000",
+      name: "Luxury Black Gold",
+      category: "primary",
+    },
+    // { dark: "#806633", light: "#000000", name: "Luxury Black Gold", category: "primary" },
     { dark: "#0A2540", light: "#E6F0FA", name: "Enterprise Navy", category: "primary" },
     { dark: "#3b82f6", light: "#93c5fd", name: "Blue", category: "primary" },
     { dark: "#8b5cf6", light: "#c4b5fd", name: "Purple", category: "primary" },
@@ -330,7 +336,11 @@ const Settings = () => {
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center"
-                  style={{ backgroundColor: theme.headerBg }}
+                 style={{
+  ...(theme.headerBg.includes("gradient")
+    ? { background: theme.headerBg }
+    : { backgroundColor: theme.headerBg }),
+}}
                 >
                   <Droplet className="text-white" size={20} />
                 </div>
@@ -404,16 +414,18 @@ const Settings = () => {
                           ? "shadow-md scale-105"
                           : ""
                       }`}
-                      style={{
-                        backgroundColor:
-                          theme.activeColorCategory === category
-                            ? theme.headerBg
-                            : themeUtils.getBgColor("default"),
-                        color:
-                          theme.activeColorCategory === category
-                            ? "#fff"
-                            : themeUtils.getTextColor(false),
-                      }}
+                     style={{
+  ...(theme.activeColorCategory === category
+    ? theme.headerBg?.includes("gradient")
+      ? { background: theme.headerBg }
+      : { backgroundColor: theme.headerBg }
+    : { backgroundColor: themeUtils.getBgColor("default") }),
+
+  color:
+    theme.activeColorCategory === category
+      ? "#fff"
+      : themeUtils.getTextColor(false),
+}}
                       onClick={(e) => {
                         // Prevent click from bubbling up to the parent (which toggles collapse)
                         e.stopPropagation();
@@ -446,16 +458,23 @@ const Settings = () => {
                       onClick={() => handleColorChange(color)}
                       title={color.name}
                     >
-                      <div className="w-full h-full rounded-[50%] overflow-hidden">
-                        <div
-                          className="w-full h-1/2"
-                          style={{ backgroundColor: color.light }}
-                        ></div>
-                        <div
-                          className="w-full h-1/2"
-                          style={{ backgroundColor: color.dark }}
-                        ></div>
-                      </div>
+                     <div className="w-full h-full rounded-[50%] overflow-hidden">
+  <div
+    className="w-full h-1/2"
+    style={{
+      backgroundColor: color.light,
+    }}
+  ></div>
+
+  <div
+    className="w-full h-1/2"
+    style={
+      color.dark?.includes("gradient")
+        ? { background: color.dark }
+        : { backgroundColor: color.dark }
+    }
+  ></div>
+</div>
                       {theme.headerBg === color.dark && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Check
