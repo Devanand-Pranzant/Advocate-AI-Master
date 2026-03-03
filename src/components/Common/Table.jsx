@@ -17,6 +17,31 @@ const Table = ({
 }) => {
   const { theme, themeUtils } = useTheme();
 
+  // ✅ GRADIENT SAFE VARIABLES (ADDED ONLY)
+  const isGradient = theme.headerBg?.includes("gradient");
+
+  const primaryColor = isGradient
+    ? "#806633"
+    : theme.headerBg || "#3b82f6";
+
+  const soft15 = isGradient
+    ? "rgba(128, 102, 51, 0.15)"
+    : theme.headerBg
+    ? `${theme.headerBg}15`
+    : "#3b82f615";
+
+  const soft08 = isGradient
+    ? "rgba(128, 102, 51, 0.08)"
+    : theme.headerBg
+    ? `${theme.headerBg}08`
+    : "#3b82f608";
+
+  const soft20 = isGradient
+    ? "rgba(128, 102, 51, 0.20)"
+    : theme.headerBg
+    ? `${theme.headerBg}20`
+    : "#3b82f620";
+
   const [sortConfig, setSortConfig] = useState({
     key: null,
     direction: null,
@@ -86,7 +111,7 @@ const Table = ({
         <div className="p-12 flex flex-col items-center gap-4">
           <Loader2
             className="h-10 w-10 animate-spin"
-            style={{ color: theme.headerBg || "#3b82f6" }}
+            style={{ color: primaryColor }}
           />
           <span style={{ color: themeUtils.getTextColor(false, true) }}>
             Loading...
@@ -114,7 +139,6 @@ const Table = ({
 
   return (
     <>
-      {/* ✅ INTERNAL CSS WITH IMPORTANT */}
       <style>
         {`
           .custom-scrollbar {
@@ -147,12 +171,13 @@ const Table = ({
           <table className="min-w-full border-collapse">
             <thead>
               <tr
-                style={{
-                  backgroundColor:
-                    theme.mode === "Dark"
-                      ? theme.headerBg
-                      : `${theme.headerBg}15`,
-                }}
+                style={
+                  theme.mode === "Dark"
+                    ? isGradient
+                      ? { background: theme.headerBg }
+                      : { backgroundColor: theme.headerBg }
+                    : { backgroundColor: soft15 }
+                }
               >
                 {headers.map((header, index) => {
                   const isActive = sortConfig.key === index;
@@ -210,7 +235,7 @@ const Table = ({
                 const rowBg = isEven
                   ? themeUtils.getBgColor("card")
                   : theme.mode === "Dark"
-                  ? `${theme.headerBg}08`
+                  ? soft08
                   : "#f9fafb";
 
                 return (
@@ -224,9 +249,7 @@ const Table = ({
                     onMouseEnter={(e) => {
                       if (hover)
                         e.currentTarget.style.backgroundColor =
-                          theme.mode === "Dark"
-                            ? `${theme.headerBg}20`
-                            : "#f3f4f6";
+                          theme.mode === "Dark" ? soft20 : "#f3f4f6";
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = rowBg;
