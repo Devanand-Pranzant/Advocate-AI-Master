@@ -6,7 +6,7 @@ export const useTheme = () => useContext(ThemeContext);
 
 // ✅ Luxury Black Gold as default color
 const defaultColor = {
-  dark: "#806633", // Gold
+  dark: "linear-gradient(270deg, rgba(128, 102, 51, 1) 4%, rgba(255, 212, 127, 1) 50%, rgba(128, 102, 51, 1) 96%)", // Gold
   light: "#000000", // Black
 };
 
@@ -108,30 +108,74 @@ export const ThemeProvider = ({ children }) => {
     getInputBgColor: () => theme.mode === "Dark" ? "#374151" : "#F9FAFB",
   };
 
-  const ThemeToggleButton = () => (
-    <button
-      onClick={toggleThemeMode}
-      className="relative inline-flex items-center pl-0 h-8 w-15 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+ const ThemeToggleButton = () => (
+  <button
+    onClick={toggleThemeMode}
+    className="relative inline-flex items-center h-8 w-16 rounded-full transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 group"
+    style={{
+      backgroundColor: theme.mode === "Dark" ? "#1E293B" : "#FBBF24",
+      boxShadow: theme.mode === "Dark" 
+        ? "inset 0 2px 4px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1)" 
+        : "inset 0 2px 4px rgba(255,255,255,0.5), 0 0 0 1px rgba(0,0,0,0.1)"
+    }}
+    aria-label="Toggle dark/light mode"
+  >
+    {/* Background stars for dark mode */}
+    {theme.mode === "Dark" && (
+      <>
+        <span className="absolute left-1.5 top-1 w-0.5 h-0.5 bg-white rounded-full opacity-70 animate-ping" style={{ animationDuration: '3s' }}></span>
+        <span className="absolute left-3 top-2 w-0.5 h-0.5 bg-white rounded-full opacity-60 animate-ping" style={{ animationDuration: '2.5s' }}></span>
+        <span className="absolute left-5 top-1.5 w-0.5 h-0.5 bg-white rounded-full opacity-80 animate-ping" style={{ animationDuration: '4s' }}></span>
+      </>
+    )}
+    
+    {/* Background clouds/rays for light mode */}
+    {theme.mode === "Light" && (
+      <>
+        <span className="absolute right-2 top-1 w-1 h-1 bg-yellow-100 rounded-full blur-[1px] animate-pulse"></span>
+        <span className="absolute right-4 top-2 w-1.5 h-1.5 bg-yellow-100 rounded-full blur-[1px] animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+      </>
+    )}
+    
+    <span
+      className="inline-block w-6 h-6 transform transition-all duration-500 ease-out rounded-full shadow-lg flex items-center justify-center overflow-hidden backdrop-blur-sm"
       style={{
-        backgroundColor: theme.mode === "Dark" ? "#D6D3D1" : "#0F172B",
+        transform: theme.mode === "Dark" ? "translateX(34px)" : "translateX(4px)",
+        backgroundColor: theme.mode === "Dark" ? "#0F172A" : "#FFFFFF",
+        boxShadow: theme.mode === "Dark"
+          ? "0 4px 8px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.2)"
+          : "0 4px 8px rgba(251, 191, 36, 0.3), 0 0 0 1px rgba(255,255,255,0.8)"
       }}
-      aria-label="Toggle dark/light mode"
     >
-      <span
-        className="inline-block w-6 h-6 transform transition-transform duration-300 ease-in-out rounded-full bg-transparent shadow-lg flex items-center justify-center"
-        style={{
-          transform:
-            theme.mode === "Dark" ? "translateX(30px)" : "translateX(4px)",
-        }}
-      >
-        {theme.mode === "Dark" ? (
-          <Moon className="w-4 h-4 mt-1 ml-1 text-gray-800" />
-        ) : (
-          <Sun className="w-4 h-4 mt-1 ml-1 text-yellow-500" />
-        )}
-      </span>
-    </button>
-  );
+      {/* Moon with craters */}
+      {theme.mode === "Dark" ? (
+        <div className="abdsolute w-full h-full flex items-center justify-center">
+          <Moon className="w-4 h-4 text-indigo-200" />
+          <span className="absolute -top-0.5 left-1 w-1 h-1 bg-indigo-300 rounded-full opacity-50"></span>
+          <span className="absolute top-1.5 left-2 w-0.5 h-0.5 bg-indigo-300 rounded-full opacity-50"></span>
+        </div>
+      ) : (
+        /* Sun with rays */
+        <div className="abdsolute w-full h-full flex items-center justify-center">
+          <Sun className="w-4 h-4  text-amber-500 animate-spin" style={{ animationDuration: '8s' }} />
+          <span className="absolute -inset-1 rounded-full bg-amber-300 blur-[2px] -z-10 opacity-30 animate-pulse"></span>
+        </div>
+      )}
+    </span>
+    
+    {/* Labels with modern font */}
+    <span className={`absolute text-[9px] font-medium transition-all duration-500 ${
+      theme.mode === "Dark" 
+        ? "left-2 opacity-100 text-indigo-200" 
+        : "left-2 opacity-0 text-transparent"
+    }`}>DARK</span>
+    <span className={`absolute text-[9px] font-medium transition-all duration-500 ${
+      theme.mode === "Light" 
+        ? "right-2 opacity-100 text-amber-700" 
+        : "right-2 opacity-0 text-transparent"
+    }`}>LIGHT</span>
+  </button>
+);
 
   return (
     <ThemeContext.Provider
