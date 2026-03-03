@@ -172,11 +172,9 @@ const Table = ({
             <thead>
               <tr
                 style={
-                  theme.mode === "Dark"
-                    ? isGradient
-                      ? { background: theme.headerBg }
-                      : { backgroundColor: theme.headerBg }
-                    : { backgroundColor: soft15 }
+                  isGradient
+                    ? { background: theme.headerBg }
+                    : { backgroundColor: theme.headerBg }
                 }
               >
                 {headers.map((header, index) => {
@@ -193,10 +191,7 @@ const Table = ({
                       key={index}
                       className="px-4 py-2 text-sm font-bold uppercase whitespace-nowrap"
                       style={{
-                        color:
-                          theme.mode === "Dark"
-                            ? "#ffffff"
-                            : themeUtils.getTextColor(true),
+                        color: "#ffffff", // ✅ always same text color
                         textAlign: headerAlign,
                       }}
                       onClick={() => handleSort(index)}
