@@ -29,21 +29,21 @@ const Homepage = () => {
       title: "Revolutionizing Law with AI",
       description: "Transforming legal practice through advanced AI technologies that enhance efficiency, accuracy, and accessibility.",
       buttonText: "Register",
-      buttonLink: "Login_registration.php"
+      buttonLink: "/login"
     },
     {
       img: "/src/assets/Images/index/image/carousel-3.jpg",
       title: "Modernizing Law with AI",
       description: "Digital Document Management, ChatBot Assistance, and Advanced Document Analysis.",
       buttonText: "Register",
-      buttonLink: "Login_registration.php"
+      buttonLink: "/register"
     },
     {
       img: "/src/assets/Images/index/image/carousel-1.jpg",
       title: "AI-Driven Legal Solutions",
       description: "Our AI-driven platform offers a suite of tools designed to enhance efficiency and accuracy in legal work",
       buttonText: "Explore",
-      buttonLink: "faq.html"
+      buttonLink: "/faq"
     }
   ];
 
@@ -532,15 +532,25 @@ const Homepage = () => {
           <div className="container mx-auto px-4 h-full">
             <div className="flex justify-between items-center h-full">
               <img src="/src/assets/Images/logo_vlc.png" alt="Logo" className="max-h-10" />
+              <div className="space-x-4">
               <a 
-                href="Login_registration.php" 
+                href="/login" 
                 className="px-2 py-1 text-xs font-medium uppercase text-[#cfb587] border border-transparent rounded transition-colors duration-300 hover:text-white"
                 style={{ 
                   background: 'linear-gradient(#000, #000) padding-box, linear-gradient(270deg, #806633 4%, #ffd47f 50%, #806633 96%) border-box'
                 }}
               >
                 Login
+              </a><a 
+                href="/signup" 
+                className="px-2 py-1 text-xs font-medium uppercase text-[#cfb587] border border-transparent rounded transition-colors duration-300 hover:text-white"
+                style={{ 
+                  background: 'linear-gradient(#000, #000) padding-box, linear-gradient(270deg, #806633 4%, #ffd47f 50%, #806633 96%) border-box'
+                }}
+              >
+                Register
               </a>
+              </div>
             </div>
           </div>
         </div>
