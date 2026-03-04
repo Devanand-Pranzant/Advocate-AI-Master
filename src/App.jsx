@@ -22,11 +22,6 @@ import HomePage from "./pages/Admin/HomePage.jsx";
 import ListCommunity from "./pages/Admin/AdminDashboard/ListCommunity.jsx";
 import ListClient from "./pages/Client/ListClient.jsx";
 
-
-//Customer portal  Portal Pages imports
-// import RegistrationCustomer from "./pages/Customer/Registraion/RegistrationCustomer.jsx";
-// import TermsAndConditions from "./pages/Customer/Registraion/TermsAndConditions.jsx";
-
 const AppContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -288,23 +283,17 @@ const AppContent = () => {
       style={{ backgroundColor: themeUtils.getBgColor("default") }}
     >
       <Routes>
-        {/* Public Routes */}
+        {/* Public Routes - Homepage is now the default landing page */}
+        <Route
+          path="/"
+          element={<HomePage />}
+        />
+        
         <Route
           path="/homepage"
-          element={
-            <PublicRoute>
-              <HomePage/>
-            </PublicRoute>
-          }
+          element={<HomePage />}
         />
-        {/* <Route
-          path="/terms-and-conditions"
-          element={
-            <PublicRoute>
-              <TermsAndConditions />
-            </PublicRoute>
-          }
-        /> */}
+        
         <Route
           path="/login"
           element={
@@ -390,7 +379,6 @@ const AppContent = () => {
           path="/dashboard"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
-              {/* <ProtectedRoute allowedRoles={[1]}> */}
               <AdminLayout
                 sidebarOpen={sidebarOpen}
                 setSidebarOpen={setSidebarOpen}
@@ -409,7 +397,6 @@ const AppContent = () => {
           path="/list-community"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
-              {/* <ProtectedRoute allowedRoles={[1]}> */}
               <AdminLayout
                 sidebarOpen={sidebarOpen}
                 setSidebarOpen={setSidebarOpen}
@@ -424,11 +411,10 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
-<Route
+        <Route
           path="/list-client"
           element={
             <ProtectedRoute allowedRoles={["admin"]}>
-              {/* <ProtectedRoute allowedRoles={[1]}> */}
               <AdminLayout
                 sidebarOpen={sidebarOpen}
                 setSidebarOpen={setSidebarOpen}
@@ -444,30 +430,6 @@ const AppContent = () => {
           }
         />
 
-    
-        {/* Redirect root to appropriate dashboard */}
-        <Route
-          path="/"
-          element={
-            <Navigate
-              to={
-                isAuthenticated && user
-                  ? user.role === "admin"
-                    ? "/dashboard"
-                    : user.role === "owner"
-                      ? "/owner/dashboard"
-                      : user.role === "customer"
-                        ? "/customer/dashboard"
-                        : user.role === "tenant"
-                          ? "/tenant/dashboard"
-                          : user.role === "support"
-                            ? "/support/dashboard"
-                            : "/login"
-                  : "/login"
-              }
-            />
-          }
-        />
         {/* 404 Page */}
         <Route
           path="*"

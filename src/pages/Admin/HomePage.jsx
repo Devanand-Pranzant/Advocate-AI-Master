@@ -1,5 +1,6 @@
 // homepage.jsx
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { MapPin, Phone, Mail, Facebook, Instagram, ChevronRight,Scale, Clock, Smile } from "lucide-react";
 
 const Homepage = () => {
   const [chatWindowOpen, setChatWindowOpen] = useState(false);
@@ -21,6 +22,11 @@ const Homepage = () => {
   const mediaStreamRef = useRef(null);
   const audioChunksRef = useRef([]);
   const carouselIntervalRef = useRef(null);
+const chooseUsData = [
+  { icon: Clock, title: "24/7 Accessibility", desc: "Access your legal tools and documents anytime, anywhere, from any device—because legal work doesn't stop at 5 PM." },
+  { icon: Scale, title: "Efficiency & Trust", desc: "Automate routine tasks and focus on what matters most—your clients. Safeguard your sensitive data with advanced encryption and security protocols." },
+  { icon: Smile, title: "User-Friendly Interface", desc: "Navigate through a sleek, intuitive dashboard that makes managing your legal work effortless, even for those who aren't tech-savvy." }
+];
 
   // Carousel data
   const carouselSlides = [
@@ -518,12 +524,7 @@ const Homepage = () => {
     { img: "/src/assets/Images/index/image/case paper.jpg", title: "Case Paper AI Analysis", desc: "Case Paper AI Analysis uses AI to examine case papers and documents, offering insights and recommendations tailored to the specific needs of each client." }
   ];
 
-  const chooseUsData = [
-    { icon: "fa-regular fa-clock", title: "24/7 Accessibility", desc: "Access your legal tools and documents anytime, anywhere, from any device—because legal work doesn't stop at 5 PM." },
-    { icon: "fa-solid fa-scale-balanced", title: "Efficiency & Trust", desc: "Automate routine tasks and focus on what matters most—your clients. Safeguard your sensitive data with advanced encryption and security protocols." },
-    { icon: "fa-regular fa-face-smile", title: "User-Friendly Interface", desc: "Navigate through a sleek, intuitive dashboard that makes managing your legal work effortless, even for those who aren't tech-savvy." }
-  ];
-
+  
   return (
     <div className="bg-black text-white font-sans overflow-x-hidden">
       {/* Top Bar */}
@@ -634,9 +635,9 @@ const Homepage = () => {
       <div id="aboutus" className="py-12 px-4">
         <div className="container mx-auto">
           <div className="text-center mb-12 relative">
-            <h2 className="text-4xl md:text-5xl font-bold font-['EB_Garamond',serif] relative z-10 inline-block px-4 bg-black">
-              About Us
-            </h2>
+          <h2 className="text-4xl md:text-5xl font-bold italic font-['EB_Garamond',serif] relative z-10 inline-block px-4 bg-black">
+  About Us
+</h2>
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-full h-[1px] bg-[#aa9166]"></div>
             </div>
@@ -713,31 +714,37 @@ const Homepage = () => {
         <div className="container mx-auto">
           <div className="flex flex-wrap -mx-4">
             <div className="w-full md:w-7/12 px-4">
-              <div className="mb-12 relative">
-                <h2 className="text-4xl md:text-5xl font-bold font-['EB_Garamond',serif] relative z-10 inline-block px-4 bg-black">
-                  Why Choose Us
-                </h2>
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full h-[1px] bg-[#aa9166]"></div>
-                </div>
-              </div>
+  <div className="mb-12 relative">
+    <h2 className="text-4xl md:text-5xl font-bold font-['EB_Garamond',serif] relative z-10 inline-block px-4 bg-black">
+      Why Choose Us
+    </h2>
+    <div className="absolute inset-0 flex items-center">
+      <div className="w-full h-[1px] bg-[#aa9166]"></div>
+    </div>
+  </div>
 
-              {chooseUsData.map((item, index) => (
-                <div key={index} className="flex items-center mb-8">
-                  <div className="w-5/12 pr-4">
-                    <div className="h-[180px] flex items-center justify-center bg-[#121518] border-4 border-[#aa9166]">
-                      <i className={`${item.icon} text-6xl text-[#aa9166] bg-black p-5 rounded-full transition-all duration-500 hover:mr-[-15px]`}></i>
-                    </div>
-                  </div>
-                  <div className="w-7/12">
-                    <h3 className="text-3xl font-semibold mb-4 pb-2 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-[50px] after:h-[2px] after:bg-[#aa9166]">
-                      {item.title}
-                    </h3>
-                    <p className="text-base">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+  {chooseUsData.map((item, index) => {
+    const IconComponent = item.icon;
+    return (
+      <div key={index} className="flex items-center mb-8">
+        <div className="w-5/12 pr-4">
+          <div className="h-[180px] flex items-center justify-center bg-[#121518] border-4 border-[#aa9166]">
+          <IconComponent 
+  className="text-[#aa9166] bg-black rounded-full transition-all duration-500 hover:mr-[-15px]" 
+  style={{ width: '100px', height: '100px', padding: '25px' }}
+/>
+          </div>
+        </div>
+        <div className="w-7/12">
+          <h3 className="text-3xl font-semibold mb-4 pb-2 relative after:content-[''] after:absolute after:left-0 after:bottom-0 after:w-[50px] after:h-[2px] after:bg-[#aa9166]">
+            {item.title}
+          </h3>
+          <p className="text-base">{item.desc}</p>
+        </div>
+      </div>
+    );
+  })}
+</div>
             <div className="w-full md:w-5/12 px-4">
               <div className="h-full p-2.5 bg-[#121518]">
                 <img 
@@ -813,57 +820,111 @@ const Homepage = () => {
       <hr className="border-[#aa9166] my-8" />
 
       {/* Footer */}
-      <div className="py-8 px-5 shadow-[0_-5px_10px_rgba(128,128,128,0.5)]">
-        <div className="container mx-auto">
-          <div className="flex flex-wrap -mx-4">
-            <div className="w-full md:w-6/12 lg:w-4/12 px-4 mb-8">
-              <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">About Us</h2>
-              <p className="text-justify text-white text-base">
-                At Advocate AI Master, we are passionate about revolutionizing the legal industry through the power of artificial intelligence. Founded on the belief that technology can enhance and simplify the work of legal professionals, our mission is to deliver innovative solutions that seamlessly integrate into your practice, empowering you to manage cases, clients, and documents with unprecedented efficiency and accuracy.
-              </p>
-            </div>
-            <div className="w-full md:w-6/12 lg:w-8/12 px-4">
-              <div className="flex flex-wrap">
-                <div className="w-full md:w-6/12 lg:w-4/12 px-4 mb-8">
-                  <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">E-Books</h2>
-                  <div className="space-y-2">
-                    <a href="PDF/Indian_Penal_Code.pdf" target="_blank" rel="noopener noreferrer" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Indian_Penal_Code</a>
-                    <a href="PDF/Bharatiya_Sakshya_Adhiniyam_2023.pdf" target="_blank" rel="noopener noreferrer" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Bharatiya_Sakshya_Adhiniyam</a>
-                    <a href="PDF/Bharatiya_Nagarik_Suraksha_Sanhita,_2023.pdf" target="_blank" rel="noopener noreferrer" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Bharatiya_Nagarik_Suraksha_Sanhita</a>
-                    <a href="PDF/Bharatiya_Nyaya_Sanhita_2023.pdf" target="_blank" rel="noopener noreferrer" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Bharatiya_Nyaya_Sanhita</a>
-                    <a href="PDF/Constitution_of_India.pdf" target="_blank" rel="noopener noreferrer" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Constitution_of_India</a>
-                  </div>
-                </div>
-                <div className="w-full md:w-6/12 lg:w-4/12 px-4 mb-8 lg:ml-10">
-                  <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Useful Pages</h2>
-                  <div className="space-y-2">
-                    <a href="#aboutus" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">About Us</a>
-                    <a href="#features" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Features</a>
-                    <a href="faq.html" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Faqs</a>
-                    <a href="terms_condition.html" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Terms and Conditions</a>
-                    <a href="privacy_policy.html" className="block text-white hover:text-[#aa9166] transition-colors before:content-['\\f105'] before:font-['Font_Awesome_5_Free'] before:mr-2.5">Privacy Policy</a>
-                  </div>
-                </div>
-                <div className="w-full md:w-6/12 lg:w-4/12 px-4">
-                  <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Get In Touch</h2>
-                  <div className="space-y-2">
-                    <p className="flex items-start"><i className="fa fa-map-marker w-6 mt-1"></i><span>8th Floor, City Avenue, Wakad, Pune, Maharashtra.</span></p>
-                    <p className="flex items-start"><i className="fa fa-phone w-6 mt-1"></i><span>+91 20 4600 9797<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+91 91 3008 9797</span></p>
-                    <p className="flex items-start"><i className="fa fa-envelope w-6 mt-1"></i><a href="mailto:info@advocateaimaster.com" className="text-white no-underline hover:text-[#aa9166]" target="_blank">info@AdvocateAiMaster.com</a></p>
-                    <div className="flex space-x-4 mt-5">
-                      <a href="https://www.facebook.com/people/Advocate-ai-master/61565198202946/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500"><i className="fab fa-facebook-f text-xl"></i></a>
-                      <a href="https://www.instagram.com/advocateaimaster/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500"><i className="fab fa-instagram text-xl"></i></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <footer className="text-center py-4 border-t border-[#aa9166] mt-8">
-            <p className="mb-0 text-white">© Advocate AI Master. All Rights Reserved 2025 by <a href="https://www.rajyugsolutions.com/" className="text-[#aa9166] hover:underline" target="_blank" rel="noopener noreferrer">Rajyug IT Solutions Pvt. Ltd.</a></p>
-          </footer>
+     
+<div className="py-8 px-5 shadow-[0_-5px_10px_rgba(128,128,128,0.5)]">
+  <div className="container mx-auto">
+    <div className="flex flex-wrap -mx-4">
+      {/* About Us - 3 columns */}
+      <div className="w-full lg:w-3/12 px-4 mb-8">
+        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">About Us</h2>
+        <p className="text-justify text-white text-base">
+          At Advocate AI Master, we are passionate about revolutionizing the legal industry through the power of artificial intelligence. Founded on the belief that technology can enhance and simplify the work of legal professionals, our mission is to deliver innovative solutions that seamlessly integrate into your practice, empowering you to manage cases, clients, and documents with unprecedented efficiency and accuracy.
+        </p>
+      </div>
+
+      {/* E-Books - 3 columns */}
+      <div className="w-full lg:w-3/12 px-4 mb-8">
+        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">E-Books</h2>
+        <div className="space-y-2">
+          <a href="PDF/Indian_Penal_Code.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Indian_Penal_Code
+          </a>
+          <a href="PDF/Bharatiya_Sakshya_Adhiniyam_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Bharatiya_Sakshya_Adhiniyam
+          </a>
+          <a href="PDF/Bharatiya_Nagarik_Suraksha_Sanhita,_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Bharatiya_Nagarik_Suraksha_Sanhita
+          </a>
+          <a href="PDF/Bharatiya_Nyaya_Sanhita_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Bharatiya_Nyaya_Sanhita
+          </a>
+          <a href="PDF/Constitution_of_India.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Constitution_of_India
+          </a>
         </div>
       </div>
+
+      {/* Useful Pages - 3 columns */}
+      <div className="w-full lg:w-3/12 px-4 mb-8">
+        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Useful Pages</h2>
+        <div className="space-y-2">
+          <a href="#aboutus" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            About Us
+          </a>
+          <a href="#features" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Features
+          </a>
+          <a href="faq.html" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Faqs
+          </a>
+          <a href="terms_condition.html" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Terms and Conditions
+          </a>
+          <a href="privacy_policy.html" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+            Privacy Policy
+          </a>
+        </div>
+      </div>
+
+      {/* Get In Touch - 3 columns */}
+      <div className="w-full lg:w-3/12 px-4 mb-8">
+        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Get In Touch</h2>
+        <div className="space-y-2">
+          <p className="flex items-start">
+            <MapPin size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
+            <span className="text-white">8th Floor, City Avenue, Wakad, Pune, Maharashtra.</span>
+          </p>
+          <p className="flex items-start">
+            <Phone size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
+            <span className="text-white">
+              +91 20 4600 9797<br />
+              <span className="ml-6">&nbsp;+91 91 3008 9797</span>
+            </span>
+          </p>
+          <p className="flex items-start">
+            <Mail size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
+            <a href="mailto:info@advocateaimaster.com" className="text-white hover:text-[#aa9166] transition-colors no-underline" target="_blank">
+              info@AdvocateAiMaster.com
+            </a>
+          </p>
+          <div className="flex space-x-4 mt-5">
+            <a href="https://www.facebook.com/people/Advocate-ai-master/61565198202946/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500 transition-colors">
+              <Facebook size={24} />
+            </a>
+            <a href="https://www.instagram.com/advocateaimaster/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500 transition-colors">
+              <Instagram size={24} />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Footer */}
+    <footer className="text-center py-4 border-t border-[#aa9166] mt-8">
+      <p className="mb-0 text-white">© Advocate AI Master. All Rights Reserved 2025 by <a href="https://www.rajyugsolutions.com/" className="text-[#aa9166] hover:underline" target="_blank" rel="noopener noreferrer">Rajyug IT Solutions Pvt. Ltd.</a></p>
+    </footer>
+  </div>
+</div>
 
       {/* Back to Top */}
       <a 
