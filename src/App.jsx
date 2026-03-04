@@ -19,6 +19,8 @@ import Footer from "./components/Footer/Footer";
 import Setting from "./components/Settings/Settings";
 import Dashboard from "./pages/Admin/AdminDashboard/Dashboard.jsx";
 import HomePage from "./pages/Admin/HomePage.jsx";
+import ListCommunity from "./pages/Admin/AdminDashboard/ListCommunity.jsx";
+import ListClient from "./pages/Client/ListClient.jsx";
 
 
 //Customer portal  Portal Pages imports
@@ -399,6 +401,44 @@ const AppContent = () => {
                 themeUtils={themeUtils}
               >
                 <Dashboard />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/list-community"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              {/* <ProtectedRoute allowedRoles={[1]}> */}
+              <AdminLayout
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+                isSidebarCollapsed={isSidebarCollapsed}
+                setIsSidebarCollapsed={setIsSidebarCollapsed}
+                user={user}
+                onLogout={logout}
+                themeUtils={themeUtils}
+              >
+                <ListCommunity />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+<Route
+          path="/list-client"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              {/* <ProtectedRoute allowedRoles={[1]}> */}
+              <AdminLayout
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+                isSidebarCollapsed={isSidebarCollapsed}
+                setIsSidebarCollapsed={setIsSidebarCollapsed}
+                user={user}
+                onLogout={logout}
+                themeUtils={themeUtils}
+              >
+                <ListClient />
               </AdminLayout>
             </ProtectedRoute>
           }
