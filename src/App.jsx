@@ -21,6 +21,9 @@ import Dashboard from "./pages/Admin/AdminDashboard/Dashboard.jsx";
 import HomePage from "./pages/Admin/HomePage.jsx";
 import ListCommunity from "./pages/Admin/AdminDashboard/ListCommunity.jsx";
 import ListClient from "./pages/Client/ListClient.jsx";
+import EditClient from "./pages/Client/EditClient.jsx";
+import AddClient from "./pages/Client/AddClient.jsx";
+import ViewClient from "./pages/Client/ViewClient.jsx";
 
 const AppContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -429,6 +432,60 @@ const AppContent = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/edit-client"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+                isSidebarCollapsed={isSidebarCollapsed}
+                setIsSidebarCollapsed={setIsSidebarCollapsed}
+                user={user}
+                onLogout={logout}
+                themeUtils={themeUtils}
+              >
+                <EditClient />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/add-client"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+                isSidebarCollapsed={isSidebarCollapsed}
+                setIsSidebarCollapsed={setIsSidebarCollapsed}
+                user={user}
+                onLogout={logout}
+                themeUtils={themeUtils}
+              >
+                <AddClient />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+          <Route
+          path="/view-client"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout
+                sidebarOpen={sidebarOpen}
+                setSidebarOpen={setSidebarOpen}
+                isSidebarCollapsed={isSidebarCollapsed}
+                setIsSidebarCollapsed={setIsSidebarCollapsed}
+                user={user}
+                onLogout={logout}
+                themeUtils={themeUtils}
+              >
+                <ViewClient />
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
 
         {/* 404 Page */}
         <Route
@@ -495,7 +552,7 @@ const AdminLayout = ({
         />
 
         <main
-          className="flex-1 overflow-y-auto hide-scrollbar px-4 pb-4"
+          className="flex-1 overflow-y-auto hide-scrollbar px-4 py-4"
           style={{
             backgroundColor: themeUtils.getBgColor("default"),
             marginBottom: "25px",
