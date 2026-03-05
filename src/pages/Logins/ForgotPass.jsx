@@ -200,13 +200,6 @@ const ForgotPasswordPage = () => {
         </div>
       </div>
 
-      {/* Bottom Right Branding */}
-      <div className="absolute bottom-4 right-4 z-10">
-        <div className="text-white/60 text-xs">
-          <p>BTU Meter Management System v1.0</p>
-          <p>RSB Compliant • Secure • Enterprise Ready</p>
-        </div>
-      </div>
     </div>
   );
 };

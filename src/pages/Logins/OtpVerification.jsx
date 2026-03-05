@@ -168,18 +168,18 @@ const OTPVerificationPage = () => {
 
   return (
     <div className="flex min-h-screen relative overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image - Updated path */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/src/assets/img/back-login.jpg')",
+          backgroundImage: "url('/src/assets/images/back-login.jpg')",
         }}
       ></div>
 
-      {/* Dark Overlay for Left Panel */}
-      <div className="hidden lg:block absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-5"></div>
+      {/* Dark Overlay for better text visibility */}
+      <div className="absolute inset-0 bg-black/50"></div>
 
-      {/* Left Side Panel */}
+      {/* Left Side Panel - Now with background image visible behind */}
       <div className="hidden lg:flex lg:w-3/5 relative z-10">
         <div className="relative z-20 flex flex-col justify-center px-12 text-white drop-shadow-lg">
           <div className="mb-10">
@@ -236,7 +236,7 @@ const OTPVerificationPage = () => {
       </div>
 
       {/* Right Side - OTP Form */}
-      <div className="w-full lg:w-2/5 flex items-center justify-center p-4 relative z-10 h-screen">
+      <div className="w-full lg:w-2/5 flex items-center justify-center p-4 relative z-10">
         <div className="w-full max-w-md bg-white/5 backdrop-blur-md rounded-xl border border-white/10 shadow-2xl p-8">
           <div className="text-center mb-8">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg mx-auto mb-4">
@@ -245,6 +245,9 @@ const OTPVerificationPage = () => {
             <h2 className="text-2xl font-bold text-white">
               Enter Verification Code
             </h2>
+            <p className="text-sm text-white/70 mt-2">
+              Code sent to <span className="font-semibold text-blue-300">{email}</span>
+            </p>
             <p className="text-sm mt-2 flex items-center justify-center gap-2 text-white">
               {isExpired ? (
                 <span className="text-red-400 font-medium">Code expired</span>
@@ -320,16 +323,25 @@ const OTPVerificationPage = () => {
               <RotateCw className={`w-4 h-4 ${isResending ? "animate-spin" : ""}`} />
               {isResending ? "Sending..." : "Resend Code"}
             </button>
-            
+          </div>
+
+          {/* Back to Login Link */}
+          <div className="text-center mt-6 pt-4 border-t border-white/10">
+            <button
+              onClick={() => navigate("/login")}
+              className="text-white/70 hover:text-white transition text-sm"
+            >
+              ← Back to Login
+            </button>
           </div>
         </div>
       </div>
 
       {/* Bottom Right Branding */}
-      <div className="absolute bottom-4 right-4 z-10">
+      <div className="absolute bottom-4 right-4 z-20">
         <div className="text-white/60 text-xs">
-          <p>BTU Meter Management System v1.0</p>
-          <p>RSB Compliant • Secure • Enterprise Ready</p>
+          <p>Advocate AI Master v1.0</p>
+          <p>Bar Council Compliant • Secure • Enterprise Ready</p>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 // homepage.jsx
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { MapPin, Phone, Mail, Facebook, Instagram, ChevronRight,Scale, Clock, Smile } from "lucide-react";
+import { MapPin, Phone, Mail, Facebook, Instagram, ChevronRight, Scale, Clock, Smile, ChevronDown, ChevronUp } from "lucide-react";
 
 const Homepage = () => {
   const [chatWindowOpen, setChatWindowOpen] = useState(false);
@@ -14,7 +14,7 @@ const Homepage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentHighlightIndex, setCurrentHighlightIndex] = useState(-1);
   const [highlights, setHighlights] = useState([]);
-  const [faqOpenStates, setFaqOpenStates] = useState([true, false, false, false, false, false]);
+  const [openFaqIndex, setOpenFaqIndex] = useState(null); // Changed to single index for accordion
   const [currentSlide, setCurrentSlide] = useState(0);
   
   const chatBodyRef = useRef(null);
@@ -22,11 +22,12 @@ const Homepage = () => {
   const mediaStreamRef = useRef(null);
   const audioChunksRef = useRef([]);
   const carouselIntervalRef = useRef(null);
-const chooseUsData = [
-  { icon: Clock, title: "24/7 Accessibility", desc: "Access your legal tools and documents anytime, anywhere, from any device—because legal work doesn't stop at 5 PM." },
-  { icon: Scale, title: "Efficiency & Trust", desc: "Automate routine tasks and focus on what matters most—your clients. Safeguard your sensitive data with advanced encryption and security protocols." },
-  { icon: Smile, title: "User-Friendly Interface", desc: "Navigate through a sleek, intuitive dashboard that makes managing your legal work effortless, even for those who aren't tech-savvy." }
-];
+  
+  const chooseUsData = [
+    { icon: Clock, title: "24/7 Accessibility", desc: "Access your legal tools and documents anytime, anywhere, from any device—because legal work doesn't stop at 5 PM." },
+    { icon: Scale, title: "Efficiency & Trust", desc: "Automate routine tasks and focus on what matters most—your clients. Safeguard your sensitive data with advanced encryption and security protocols." },
+    { icon: Smile, title: "User-Friendly Interface", desc: "Navigate through a sleek, intuitive dashboard that makes managing your legal work effortless, even for those who aren't tech-savvy." }
+  ];
 
   // Carousel data
   const carouselSlides = [
@@ -42,7 +43,7 @@ const chooseUsData = [
       title: "Modernizing Law with AI",
       description: "Digital Document Management, ChatBot Assistance, and Advanced Document Analysis.",
       buttonText: "Register",
-      buttonLink: "/register"
+      buttonLink: "/login"
     },
     {
       img: "/src/assets/Images/index/image/carousel-1.jpg",
@@ -149,10 +150,9 @@ const chooseUsData = [
     resetSearch();
   };
 
+  // Updated FAQ toggle function - closes others when one opens
   const toggleFaq = (index) => {
-    const newFaqOpenStates = [...faqOpenStates];
-    newFaqOpenStates[index] = !newFaqOpenStates[index];
-    setFaqOpenStates(newFaqOpenStates);
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
   const base64ToBlob = (base64, contentType) => {
@@ -761,186 +761,195 @@ const chooseUsData = [
         </div>
       </div>
 
-      {/* FAQs */}
-      <div id="faqs" className="py-12 px-4">
-        <div className="container mx-auto">
-          <div className="flex flex-wrap -mx-4">
-            <div className="w-full md:w-5/12 px-4 mb-8 md:mb-0">
-              <div className="h-full p-2.5 bg-[#121518]">
-                <img 
-                  src="/src/assets/Images/index/image/faqs.jpg" 
-                  alt="FAQs" 
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.target.src = '/src/assets/Images/index/image/faqs.jpg';
-                  }}
-                />
-              </div>
-            </div>
-            <div className="w-full md:w-7/12 px-4">
-              <div className="text-center mb-12 relative">
-                <h2 className="text-4xl md:text-5xl font-bold font-['EB_Garamond',serif] relative z-10 inline-block px-4 bg-black">
-                  Have A Questions?
-                </h2>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-full h-[1px] bg-[#aa9166]"></div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {faqData.map((faq, index) => (
-                  <div key={index} className="border border-[#aa9166]">
-                    <div className="bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633]">
-                      <button 
-                        className="w-full text-left px-4 py-2 text-black text-lg flex items-center hover:opacity-90 transition-opacity focus:outline-none"
-                        onClick={() => toggleFaq(index)}
-                      >
-                        <span className="inline-flex items-center justify-center w-10 h-10 mr-2.5 text-center bg-[#806633] text-black font-bold">
-                          {index + 1}
-                        </span>
-                        <span className="flex-1">{faq.q}</span>
-                        <span className="ml-auto">
-                          <i className={`fas ${faqOpenStates[index] ? 'fa-chevron-up' : 'fa-chevron-down'} text-black`}></i>
-                        </span>
-                      </button>
-                    </div>
-                    {faqOpenStates[index] && (
-                      <div className="p-4 bg-black text-base border-t border-[#aa9166]">
-                        {faq.a}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+      {/* FAQs - Updated with proper accordion functionality */}
+<div id="faqs" className="py-12 px-4">
+  <div className="container mx-auto">
+    <div className="flex flex-wrap -mx-4">
+      <div className="w-full md:w-5/12 px-4 mb-8 md:mb-0">
+        <div className="h-full p-2.5 bg-[#121518] border-4 border-[#aa9166]/50">
+          <img 
+            src="/src/assets/Images/index/image/faqs.jpg" 
+            alt="FAQs" 
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.src = '/src/assets/Images/index/image/faqs.jpg';
+            }}
+          />
         </div>
       </div>
+      <div className="w-full md:w-7/12 px-4">
+        <div className="text-center mb-12 relative">
+          <h2 className="text-4xl md:text-5xl font-bold font-['EB_Garamond',serif] relative z-10 inline-block px-4 bg-black">
+            Have A Questions?
+          </h2>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-full h-[1px] bg-[#aa9166]"></div>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          {faqData.map((faq, index) => (
+            <div key={index} className="border border-[#aa9166] rounded-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633]">
+                <button 
+                  className="w-full text-left px-4 py-3 text-black text-lg flex items-center hover:opacity-90 transition-opacity focus:outline-none"
+                  onClick={() => toggleFaq(index)}
+                >
+                  <span className="inline-flex items-center justify-center w-10 h-10 mr-3 text-center bg-[#806633] text-black font-bold rounded">
+                    {index + 1}
+                  </span>
+                  <span className="flex-1 pr-4">{faq.q}</span>
+                  <span className="ml-auto">
+                    {openFaqIndex === index ? (
+                      <ChevronUp className="w-5 h-5 text-black" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5 text-black" />
+                    )}
+                  </span>
+                </button>
+              </div>
+              
+              {/* Answer with smooth animation - ONLY this part animates */}
+              <div 
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  openFaqIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}
+              >
+                <div className="p-4 bg-black text-base border-t border-[#aa9166]">
+                  {faq.a}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
       <hr className="border-[#aa9166] my-8" />
 
       {/* Footer */}
-     
-<div className="py-8 px-5 shadow-[0_-5px_10px_rgba(128,128,128,0.5)]">
-  <div className="container mx-auto">
-    <div className="flex flex-wrap -mx-4">
-      {/* About Us - 3 columns */}
-      <div className="w-full lg:w-3/12 px-4 mb-8">
-        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">About Us</h2>
-        <p className="text-justify text-white text-base">
-          At Advocate AI Master, we are passionate about revolutionizing the legal industry through the power of artificial intelligence. Founded on the belief that technology can enhance and simplify the work of legal professionals, our mission is to deliver innovative solutions that seamlessly integrate into your practice, empowering you to manage cases, clients, and documents with unprecedented efficiency and accuracy.
-        </p>
-      </div>
+      <div className="shadow-[0_-5px_10px_rgba(128,128,128,0.5)]">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-wrap -mx-4">
+            {/* About Us - 3 columns */}
+            <div className="w-full lg:w-3/12 px-4 mb-8">
+              <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">About Us</h2>
+              <p className="text-justify text-white text-base">
+                At Advocate AI Master, we are passionate about revolutionizing the legal industry through the power of artificial intelligence. Founded on the belief that technology can enhance and simplify the work of legal professionals, our mission is to deliver innovative solutions that seamlessly integrate into your practice, empowering you to manage cases, clients, and documents with unprecedented efficiency and accuracy.
+              </p>
+            </div>
 
-      {/* E-Books - 3 columns */}
-      <div className="w-full lg:w-3/12 px-4 mb-8">
-        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">E-Books</h2>
-        <div className="space-y-2">
-          <a href="PDF/Indian_Penal_Code.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Indian_Penal_Code
-          </a>
-          <a href="PDF/Bharatiya_Sakshya_Adhiniyam_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Bharatiya_Sakshya_Adhiniyam
-          </a>
-          <a href="PDF/Bharatiya_Nagarik_Suraksha_Sanhita,_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Bharatiya_Nagarik_Suraksha_Sanhita
-          </a>
-          <a href="PDF/Bharatiya_Nyaya_Sanhita_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Bharatiya_Nyaya_Sanhita
-          </a>
-          <a href="PDF/Constitution_of_India.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Constitution_of_India
-          </a>
-        </div>
-      </div>
+            {/* E-Books - 3 columns */}
+            <div className="w-full lg:w-3/12 px-4 mb-8">
+              <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">E-Books</h2>
+              <div className="space-y-2">
+                <a href="PDF/Indian_Penal_Code.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Indian_Penal_Code
+                </a>
+                <a href="PDF/Bharatiya_Sakshya_Adhiniyam_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Bharatiya_Sakshya_Adhiniyam
+                </a>
+                <a href="PDF/Bharatiya_Nagarik_Suraksha_Sanhita,_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Bharatiya_Nagarik_Suraksha_Sanhita
+                </a>
+                <a href="PDF/Bharatiya_Nyaya_Sanhita_2023.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Bharatiya_Nyaya_Sanhita
+                </a>
+                <a href="PDF/Constitution_of_India.pdf" target="_blank" rel="noopener noreferrer" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Constitution_of_India
+                </a>
+              </div>
+            </div>
 
-      {/* Useful Pages - 3 columns */}
-      <div className="w-full lg:w-3/12 px-4 mb-8">
-        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Useful Pages</h2>
-        <div className="space-y-2">
-          <a href="#aboutus" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            About Us
-          </a>
-          <a href="#features" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Features
-          </a>
-          <a href="faq.html" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Faqs
-          </a>
-          <a href="terms_condition.html" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Terms and Conditions
-          </a>
-          <a href="privacy_policy.html" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
-            <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
-            Privacy Policy
-          </a>
-        </div>
-      </div>
+            {/* Useful Pages - 3 columns */}
+            <div className="w-full lg:w-3/12 px-4 mb-8">
+              <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Useful Pages</h2>
+              <div className="space-y-2">
+                <a href="#aboutus" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  About Us
+                </a>
+                <a href="#features" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Features
+                </a>
+                <a href="#faqs" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Faqs
+                </a>
+                <a href="/terms_condition" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Terms and Conditions
+                </a>
+                <a href="/privacy_policy" className="flex items-center text-white hover:text-[#aa9166] transition-colors group">
+                  <ChevronRight size={16} className="mr-2.5 text-[#aa9166] group-hover:text-white transition-colors" />
+                  Privacy Policy
+                </a>
+              </div>
+            </div>
 
-      {/* Get In Touch - 3 columns */}
-      <div className="w-full lg:w-3/12 px-4 mb-8">
-        <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Get In Touch</h2>
-        <div className="space-y-2">
-          <p className="flex items-start">
-            <MapPin size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
-            <span className="text-white">8th Floor, City Avenue, Wakad, Pune, Maharashtra.</span>
-          </p>
-          <p className="flex items-start">
-            <Phone size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
-            <span className="text-white">
-              +91 20 4600 9797<br />
-              <span className="ml-6">&nbsp;+91 91 3008 9797</span>
-            </span>
-          </p>
-          <p className="flex items-start">
-            <Mail size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
-            <a href="mailto:info@advocateaimaster.com" className="text-white hover:text-[#aa9166] transition-colors no-underline" target="_blank">
-              info@AdvocateAiMaster.com
-            </a>
-          </p>
-          <div className="flex space-x-4 mt-5">
-            <a href="https://www.facebook.com/people/Advocate-ai-master/61565198202946/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500 transition-colors">
-              <Facebook size={24} />
-            </a>
-            <a href="https://www.instagram.com/advocateaimaster/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500 transition-colors">
-              <Instagram size={24} />
-            </a>
+            {/* Get In Touch - 3 columns */}
+            <div className="w-full lg:w-3/12 px-4 mb-8">
+              <h2 className="text-2xl font-semibold text-[#aa9166] mb-8">Get In Touch</h2>
+              <div className="space-y-2">
+                <p className="flex items-start">
+                  <MapPin size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
+                  <span className="text-white">8th Floor, City Avenue, Wakad, Pune, Maharashtra.</span>
+                </p>
+                <p className="flex items-start">
+                  <Phone size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
+                  <span className="text-white">
+                    +91 20 4600 9797<br />
+                    <span className="ml-6">&nbsp;+91 91 3008 9797</span>
+                  </span>
+                </p>
+                <p className="flex items-start">
+                  <Mail size={20} className="mr-2 mt-1 text-[#aa9166] flex-shrink-0" />
+                  <a href="mailto:info@advocateaimaster.com" className="text-white hover:text-[#aa9166] transition-colors no-underline" target="_blank">
+                    info@AdvocateAiMaster.com
+                  </a>
+                </p>
+                <div className="flex space-x-4 mt-5">
+                  <a href="https://www.facebook.com/people/Advocate-ai-master/61565198202946/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500 transition-colors">
+                    <Facebook size={24} />
+                  </a>
+                  <a href="https://www.instagram.com/advocateaimaster/" target="_blank" rel="noopener noreferrer" className="text-[#aa9166] hover:text-gray-500 transition-colors">
+                    <Instagram size={24} />
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
+
+          {/* Footer */}
+          <footer className="text-center py-4 border-t border-[#aa9166] mt-8">
+            <p className="mb-0 text-white">© Advocate AI Master. All Rights Reserved 2025 by <a href="https://www.rajyugsolutions.com/" className="text-[#aa9166] hover:underline" target="_blank" rel="noopener noreferrer">Rajyug IT Solutions Pvt. Ltd.</a></p>
+          </footer>
         </div>
       </div>
-    </div>
-
-    {/* Footer */}
-    <footer className="text-center py-4 border-t border-[#aa9166] mt-8">
-      <p className="mb-0 text-white">© Advocate AI Master. All Rights Reserved 2025 by <a href="https://www.rajyugsolutions.com/" className="text-[#aa9166] hover:underline" target="_blank" rel="noopener noreferrer">Rajyug IT Solutions Pvt. Ltd.</a></p>
-    </footer>
-  </div>
-</div>
 
       {/* Back to Top */}
       <a 
         href="#" 
-        className="back-to-top hidden fixed right-4 bottom-4 w-8 h-8 bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633] text-[#121518] text-center leading-8 text-2xl rounded-full z-50 hover:bg-[#282828] hover:text-[#aa9166] transition-colors"
+        className="back-to-top hidden fixed right-4 bottom-4 w-8 h-8 bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633] text-black text-center leading-8 text-2xl rounded-full z-50 hover:bg-[#282828] hover:text-[#aa9166] transition-colors"
         onClick={scrollToTop}
       >
-        <i className="fa fa-chevron-up text-xl"></i>
+        ^
       </a>
 
       {/* Chat Button */}
       <div 
-        className="fixed bottom-4 left-4 w-12 h-12 bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633] text-white rounded-full flex items-center justify-center cursor-pointer shadow-lg z-50 hover:bg-[#8a7546] transition-colors"
+        className="fixed bottom-4 left-4 w-12 h-12 bg-gradient-to-r from-[#806633] via-[#ffd47f] to-[#806633] rounded-full flex items-center justify-center cursor-pointer shadow-lg z-50 hover:bg-[#8a7546] transition-colors"
         onClick={toggleChat}
       >
-        <i className="fas fa-comment"></i>
+        <span className="text-black text-2xl font-bold">💬</span>
       </div>
 
       {/* Chat Window */}
