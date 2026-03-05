@@ -24,6 +24,7 @@ import ListClient from "./pages/Client/ListClient.jsx";
 import EditClient from "./pages/Client/EditClient.jsx";
 import AddClient from "./pages/Client/AddClient.jsx";
 import ViewClient from "./pages/Client/ViewClient.jsx";
+import FAQPage from "./pages/Admin/AdminDashboard/FAQPage.jsx";
 
 const AppContent = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -296,6 +297,12 @@ const AppContent = () => {
           path="/homepage"
           element={<HomePage />}
         />
+
+         <Route
+          path="/faq"
+          element={<FAQPage />}
+        />
+        
         
         <Route
           path="/login"

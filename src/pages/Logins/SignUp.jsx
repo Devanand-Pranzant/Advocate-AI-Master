@@ -206,7 +206,7 @@ const SignUpPage = () => {
                 type="text"
                 value={formData.barRegistrationNumber}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white font-medium placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white font-medium placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 placeholder="Bar Registration Number"
                 required
               />
@@ -221,7 +221,7 @@ const SignUpPage = () => {
                 type="text"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white font-medium placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white font-medium placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 placeholder="Full Name"
                 required
               />
@@ -236,7 +236,7 @@ const SignUpPage = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white font-medium placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white font-medium placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 placeholder="Email Address"
                 required
               />
@@ -251,7 +251,7 @@ const SignUpPage = () => {
                 type="tel"
                 value={formData.phoneNumber}
                 onChange={handleChange}
-                className="w-full pl-12 pr-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white font-medium placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full pl-12 pr-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white font-medium placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
                 placeholder="Phone Number (10 digits)"
                 required
               />
@@ -259,19 +259,19 @@ const SignUpPage = () => {
 
             {/* Mode of Contact */}
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-white/80">
+              <label className="block text-sm font-medium text-white/90">
                 Mode of Contact
               </label>
-              <div className="flex flex-wrap gap-4 p-3 bg-white/5 border border-white/10 rounded-lg">
+              <div className="flex flex-wrap gap-4 p-3 bg-white/10 border border-white/20 rounded-lg">
                 <label className="flex items-center space-x-2 cursor-pointer">
                   <input
                     type="checkbox"
                     name="email"
                     checked={formData.contactMode.email}
                     onChange={handleCheckboxChange}
-                    className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/10"
+                    className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/20"
                   />
-                  <span className="text-sm text-white/80 flex items-center gap-1">
+                  <span className="text-sm text-white/90 flex items-center gap-1">
                     <Mail className="w-4 h-4" /> Email
                   </span>
                 </label>
@@ -282,9 +282,9 @@ const SignUpPage = () => {
                     name="phone"
                     checked={formData.contactMode.phone}
                     onChange={handleCheckboxChange}
-                    className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/10"
+                    className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/20"
                   />
-                  <span className="text-sm text-white/80 flex items-center gap-1">
+                  <span className="text-sm text-white/90 flex items-center gap-1">
                     <Phone className="w-4 h-4" /> Phone
                   </span>
                 </label>
@@ -295,9 +295,9 @@ const SignUpPage = () => {
                     name="whatsapp"
                     checked={formData.contactMode.whatsapp}
                     onChange={handleCheckboxChange}
-                    className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/10"
+                    className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/20"
                   />
-                  <span className="text-sm text-white/80 flex items-center gap-1">
+                  <span className="text-sm text-white/90 flex items-center gap-1">
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19.077 4.928C17.191 3.041 14.683 2 12.006 2c-5.35 0-9.71 4.36-9.71 9.71 0 1.706.446 3.38 1.296 4.86L2.5 21.5l5.056-1.337c1.446.79 3.082 1.206 4.73 1.206 5.35 0 9.71-4.36 9.71-9.71 0-2.598-1.012-5.038-2.919-6.931zM12.006 19.87c-1.47 0-2.91-.396-4.166-1.146l-.298-.178-3.014.798.8-2.94-.194-.31c-.814-1.3-1.242-2.8-1.242-4.366 0-4.47 3.636-8.106 8.114-8.106 2.166 0 4.204.846 5.736 2.38 1.532 1.534 2.376 3.572 2.376 5.738-.002 4.47-3.64 8.106-8.112 8.106zm4.446-6.042c-.244-.122-1.44-.71-1.662-.792-.222-.082-.384-.122-.546.122-.162.244-.634.792-.778.956-.144.164-.288.184-.532.062-.754-.332-1.526-.804-2.16-1.394-.814-.748-1.364-1.65-1.522-2.128-.162-.478.014-.64.122-.846.098-.184.244-.41.366-.614.122-.204.162-.346.244-.57.082-.224.028-.398-.014-.56-.042-.162-.37-1.006-.512-1.374-.134-.35-.272-.302-.37-.308h-.32c-.136 0-.356.05-.542.244-.186.194-.712.696-.712 1.698 0 1.002.73 1.97.832 2.106.102.136 1.422 2.22 3.45 3.04.482.194.858.31 1.15.398.482.134.92.116 1.266.07.388-.052 1.194-.488 1.362-.96.168-.472.168-.876.118-.96-.05-.084-.184-.136-.428-.24z"/>
                     </svg>
@@ -311,10 +311,10 @@ const SignUpPage = () => {
             <div className="flex items-center">
               <input
                 type="checkbox"
-                className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/10"
+                className="w-4 h-4 text-blue-600 border-white/40 rounded focus:ring-blue-500 bg-white/20"
                 required
               />
-              <label className="ml-3 text-sm text-white/80">
+              <label className="ml-3 text-sm text-white/90">
                 I agree to the{" "}
                 <a
                   href="#"
@@ -347,7 +347,7 @@ const SignUpPage = () => {
 
           {/* Login Link */}
           <div className="text-center mt-6">
-            <p className="text-sm text-white/70">
+            <p className="text-sm text-white/80">
               Already have an account?{" "}
               <Link
                 to="/login"
